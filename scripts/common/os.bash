@@ -42,14 +42,16 @@ function init_make() {
   fi
 }
 
-function list_dirs_containing_docker_files(){
-  basename $(find . -type f -name "Dockerfile" | xargs dirname | sort | uniq)
+function list_dirs_containing_file(){
+  file_name=$1
+  echo "${BLUE} Directories With $file_name ${NC}"
+  basename $(find . -type f -name "$file_name" | xargs dirname | sort | uniq)
 }
 
 function perform_docker_build_action(){
   action=$1
-  list_dirs_containing_docker_files
-  read -p "${BLUE} Container Image (dir of the Dockerfile) : ${NC}" DOCKER_FILE_DIR
+  list_dirs_containing_file "Dockerfile"
+  read -p "${BLUE} Directory of the Dockerfile (choose from above) : ${NC}" DOCKER_FILE_DIR
   IMAGE="$USER/$DOCKER_FILE_DIR"
   cd $DOCKER_FILE_DIR && make $action && cd -
 }
