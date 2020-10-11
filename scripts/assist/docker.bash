@@ -23,11 +23,17 @@ case $action in
       ;;
     shell)
       select_dir_containing_file "Dockerfile"
-      docker run --rm -it -v "${HOME}/.awsvault:/root/.awsvault" --entrypoint /bin/bash  "$IMAGE:latest"
+      docker run --rm -it \
+            -v "${HOME}/.awsvault:/root/.awsvault" \
+            -v "${HOME}/.aws:/root/.aws" \
+            --entrypoint /bin/bash  "$IMAGE:latest"
       ;;
     run)
       select_dir_containing_file "Dockerfile"
-      docker run --rm -it -v "${HOME}/.awsvault:/root/.awsvault" "${IMAGE}:latest" 
+      docker run --rm -it \
+            -v "${HOME}/.awsvault:/root/.awsvault" \
+            -v "${HOME}/.aws:/root/.aws" \
+            "${IMAGE}:latest" 
       ;;
     scan)
       docker run --rm -e "WORKSPACE=${PWD}" -v $PWD:/app shiftleft/sast-scan scan -t bash --build
