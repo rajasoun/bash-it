@@ -48,10 +48,15 @@ function list_dirs_containing_file(){
   basename $(find . -type f -name "$file_name" | xargs dirname | sort | uniq)
 }
 
+function select_dir_containing_file(){
+  file_name=$1
+  list_dirs_containing_file $file_name
+  read -p "${BLUE} $file_name Directoris (choose from above) : ${NC}" FILE_DIR
+  IMAGE="$USER/$FILE_DIR"
+}
+
 function perform_docker_build_action(){
   action=$1
-  list_dirs_containing_file "Dockerfile"
-  read -p "${BLUE} Directory of the Dockerfile (choose from above) : ${NC}" DOCKER_FILE_DIR
-  IMAGE="$USER/$DOCKER_FILE_DIR"
-  cd $DOCKER_FILE_DIR && make $action && cd -
+  select_dir_containing_file "Dockerfile"
+  cd $FILE_DIR && make $action && cd -
 }
