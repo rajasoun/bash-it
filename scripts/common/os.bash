@@ -41,3 +41,7 @@ function init_make() {
       fi
   fi
 }
+
+function list_dirs_containing_docker_files(){
+  basename $(find . -type f -name "Dockerfile" | xargs dirname | sort | uniq)
+}
