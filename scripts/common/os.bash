@@ -60,3 +60,11 @@ function perform_docker_build_action(){
   select_dir_containing_file "Dockerfile"
   cd $FILE_DIR && make $action && cd -
 }
+
+function get_ecr_registry () {
+	REGISTRY_HOST=${AWS_ACCOUNT_NUMBER}.dkr.ecr.${AWS_REGION}.amazonaws.com 
+} 
+
+function get_docker_registry () {
+	REGISTRY_HOST=docker.io
+}
