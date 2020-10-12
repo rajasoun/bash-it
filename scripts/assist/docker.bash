@@ -18,10 +18,8 @@ case $action in
       perform_docker_build_action build
       ;;
     release)
-      read -p "${BLUE} Registry Type ([minor,major,patch]) : ${NC}" REGISTRY_TYPE
-      set_registry $REGISTRY_TYPE
-      read -p "${BLUE} Type of Release ([minor,major,patch]) : ${NC}" RELEASE_TYPE
-      perform_docker_build_action $RELEASE_TYPE-release
+      read -r -p "${BLUE} Type of Release ([minor,major,patch]) : ${NC}" RELEASE_TYPE
+      perform_docker_build_action "$RELEASE_TYPE-release"
       ;;
     shell)
       select_dir_containing_file "Dockerfile"
@@ -38,7 +36,7 @@ case $action in
             "${IMAGE}:latest" 
       ;;
     scan)
-      docker run --rm -e "WORKSPACE=${PWD}" -v $PWD:/app shiftleft/sast-scan scan -t bash --build
+      docker run --rm -e "WORKSPACE=${PWD}" -v "$PWD:/app" shiftleft/sast-scan scan -t bash --build
       ;;
     clean)
       echo "${GREEN}Deleting .DS_Store, bash-it & make${NC}"
