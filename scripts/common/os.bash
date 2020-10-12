@@ -61,10 +61,12 @@ function perform_docker_build_action(){
   cd $FILE_DIR && make $action && cd -
 }
 
-function get_ecr_registry () {
+function get_aws_ecr_registry () {
+  export AWS_ACCOUNT_NUMBER=$(aws-vault exec cx-api --backend file --no-session -- aws sts get-caller-identity | jq '.Account' | tr -d '"' )
+  export $(aws-vault exec cx-api --backend file  --no-session -- env | grep AWS_REGION | xargs)
 	REGISTRY_HOST=${AWS_ACCOUNT_NUMBER}.dkr.ecr.${AWS_REGION}.amazonaws.com 
 } 
 
-function get_docker_registry () {
+function get_docker_io_registry () {
 	REGISTRY_HOST=docker.io
 }
