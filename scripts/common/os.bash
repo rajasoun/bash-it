@@ -61,7 +61,7 @@ function perform_docker_build_action(){
   cd $FILE_DIR && make $action && cd -
 }
 
-funnction set_container_registry(){
+function set_container_registry(){
   registry=action=$( tr '[:upper:]' '[:lower:]' <<<"$1" )
   if [ $registry == "aws" ];then
     set_aws_ecr_registry
