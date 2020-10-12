@@ -61,14 +61,21 @@ function perform_docker_build_action(){
   cd $FILE_DIR && make $action && cd -
 }
 
-function set_container_registry(){
-  registry=action=$( tr '[:upper:]' '[:lower:]' <<<"$1" )
-  if [ $registry == "aws" ];then
-    set_aws_ecr_registry
-  fi
-  if [ $registry == "docker" ];then
-    set_docker_io_registry
-  fi
+function set_registry(){
+  opt="$1"
+  type=$( tr '[:upper:]' '[:lower:]' <<<"$opt" )
+
+  case $type in
+    aws)
+      set_aws_ecr_registry
+    ;;
+    docker)
+      set_docker_io_registry
+    ;;
+    *)
+      raise_error "${RED}Invalid Registry Type${NC}"
+    ;;
+  esac
 }
 
 function set_aws_ecr_registry(){

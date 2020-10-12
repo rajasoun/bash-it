@@ -18,6 +18,8 @@ case $action in
       perform_docker_build_action build
       ;;
     release)
+      read -p "${BLUE} Registry Type ([minor,major,patch]) : ${NC}" REGISTRY_TYPE
+      set_registry $REGISTRY_TYPE
       read -p "${BLUE} Type of Release ([minor,major,patch]) : ${NC}" RELEASE_TYPE
       perform_docker_build_action $RELEASE_TYPE-release
       ;;
