@@ -16,12 +16,12 @@ action=$( tr '[:upper:]' '[:lower:]' <<<"$opt" )
 case $action in
     setup)
       echo "${GREEN}Setting up aws-vault for Profile : ${PROFILE}${NC}"
-      aws-vault add  "$PROFILE"
+      aws-vault --backend=file add  "$PROFILE"
       export "$(aws-vault exec "$PROFILE" --no-session -- env | grep AWS | xargs)"
       ;;
     teardown)
       echo "${GREEN}Deleting up aws-vault for Profile : ${PROFILE}${NC}"
-      aws-vault remove  "$PROFILE"
+      aws-vault --backend=file remove  "$PROFILE"
       rm -fr  bash-it reports
       ;;
     get-value)
@@ -31,9 +31,6 @@ case $action in
       CLIENT_SECRET=$(secretcli get "$SECRET_STORE/$ENV_TYPE" "$NAME_PATTERN/$DEPLOYMENT_ENV_TYPE/client-secret")
       echo "${LIGHT_BLUE} client-id: ${CLIENT_ID}   client-secert: ${CLIENT_SECRET}  ${NC}"
       ;;
-    scan)
-      docker run --rm -e "WORKSPACE=${PWD}" -v "$PWD:/app" shiftleft/sast-scan scan -t bash --build
-      ;;
     *)
       echo "${RED}Usage: ./assist <command>${NC}"
 cat <<-EOF
@@ -41,7 +38,6 @@ Commands:
 ---------
   setup       -> Day-0 Setup for aws-vault and aws secrets manager
   teardown    -> Teardown aws-vault and aws secerts manager
-  scan        -> Source code with static analysis
 EOF
     ;;
 esac
