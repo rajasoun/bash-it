@@ -15,12 +15,12 @@ action=$( tr '[:upper:]' '[:lower:]' <<<"$opt" )
 
 case $action in
     setup)
-      echo "${GREEN}Setting up aws-vault for Profile : ${_AWS_PROFILE}${NC}"
+      echo "${GREEN}Setting up aws-vault for Profile : $_AWS_PROFILE ${NC}"
       aws-vault --backend=file add  "$_AWS_PROFILE"
       export "$(aws-vault exec "$_AWS_PROFILE" --no-session -- env | grep AWS | xargs)"
       ;;
     teardown)
-      echo "${GREEN}Deleting up aws-vault for Profile : ${_AWS_PROFILE}${NC}"
+      echo "${GREEN}Deleting up aws-vault for Profile : $_AWS_PROFILE${NC}"
       aws-vault --backend=file remove  "$_AWS_PROFILE"
       rm -fr  bash-it reports
       ;;
