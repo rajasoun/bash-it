@@ -5,6 +5,7 @@ NC=$'\e[0m' # No Color
 RED=$'\e[31m'
 GREEN=$'\e[32m'
 BLUE=$'\e[34m'
+LIGHT_BLUE=$'\e[94m'
 
 BOLD=$'\033[1m'
 UNDERLINE=$'\033[4m'
@@ -46,7 +47,7 @@ function init_make() {
 
 function list_dirs_containing_file(){
   file_name=$1
-  echo "${BLUE}${UNDERLINE}Directories With $file_name ${NC}"
+  echo "${LIGHT_BLUE}${UNDERLINE}Directories With $file_name ${NC}"
   # shellcheck disable=SC2038
   basename "$(find . -type f -name "$file_name" | xargs dirname | sort | uniq)"
 }
