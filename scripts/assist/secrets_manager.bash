@@ -60,6 +60,8 @@ function _debug() {
   check)
     echo "${GREEN}Test aws-vault for Profile : $_AWS_PROFILE ${NC}"
     aws-vault --backend=file list
+    #:ToDo - Resetting AWS Vault - To check if the environment variables are already present
+    AWS_VAULT=
     aws-vault --backend=file exec $_AWS_PROFILE -- aws sts get-caller-identity
     ;;
   secret-store)
@@ -70,7 +72,7 @@ function _debug() {
 Debug  commands:
 ----------------
   check         -> Check if aws-vault is correctly setup                                   
-  secret-store -> setup, tear-down, set and get 
+  secret-store  -> setup, tear-down, set and get 
 EOF
     ;;
   esac
