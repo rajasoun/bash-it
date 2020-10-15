@@ -31,7 +31,7 @@ function _secret_store(){
     read -r -p "${LIGHT_BLUE} Deployment Environment ([qa,stage,prod]) : ${NC}" DEPLOYMENT_ENV_TYPE
 
     read -r -p "${LIGHT_BLUE}${UNDERLINE} Get Value For Key ([client-id,client-secret]) : ${NC}" KEY
-    echo "${GREEN}Getting value for Key : $_AWS_SECRET_STORE_NAME_PATTERN/$DEPLOYMENT_ENV_TYPE/client-secret"
+    echo "${GREEN}Getting value for Key : $_AWS_SECRET_STORE_NAME_PATTERN/$DEPLOYMENT_ENV_TYPE/$KEY From $_AWS_SECRET_STORE/$ENV_TYPE ${NC}"
     
     VALUE=$(aws-vault --backend=file exec $_AWS_PROFILE -- secretcli get "$_AWS_SECRET_STORE/$ENV_TYPE" "$_AWS_SECRET_STORE_NAME_PATTERN/$DEPLOYMENT_ENV_TYPE/$KEY" | tr -d "")
     echo "${LIGHT_BLUE} $KEY -> $VALUE ${NC}"
