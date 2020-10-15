@@ -10,6 +10,9 @@ if [ ! -d "make" ]; then
   init_make
 fi 
 
+read -r -p "${LIGHT_BLUE} Type of Release ([aws,docker]) : ${NC}" CONTAINER_REGISTRY_TYPE
+set_registry "$CONTAINER_REGISTRY_TYPE"
+
 opt="$1"
 action=$( tr '[:upper:]' '[:lower:]' <<<"$opt" )
 
@@ -18,7 +21,7 @@ case $action in
       perform_docker_build_action build
       ;;
     release)
-      read -r -p "${BLUE} Type of Release ([minor,major,patch]) : ${NC}" RELEASE_TYPE
+      read -r -p "${LIGHT_BLUE} Type of Release ([minor,major,patch]) : ${NC}" RELEASE_TYPE
       perform_docker_build_action "$RELEASE_TYPE-release"
       ;;
     shell)

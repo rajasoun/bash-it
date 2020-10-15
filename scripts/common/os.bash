@@ -5,6 +5,7 @@ NC=$'\e[0m' # No Color
 RED=$'\e[31m'
 GREEN=$'\e[32m'
 BLUE=$'\e[34m'
+LIGHT_BLUE=$'\e[94m'
 
 BOLD=$'\033[1m'
 UNDERLINE=$'\033[4m'
@@ -64,30 +65,3 @@ function perform_docker_build_action(){
   select_dir_containing_file "Dockerfile"
   cd "$FILE_DIR" && make "$action" && cd - || return
 }
-
-#function set_registry(){
-#  opt="$1"
-#  type=$( tr '[:upper:]' '[:lower:]' <<<"$opt" )
-#
-#  case $type in
-#    aws)
-#      set_aws_ecr_registry
-#    ;;
-#    docker)
-#      set_docker_io_registry
-#    ;;
-#    *)
-#      raise_error "${RED}Invalid Registry Type${NC}"
-#    ;;
-#  esac
-#}
-#
-#function set_aws_ecr_registry(){
-#  export AWS_ACCOUNT_NUMBER=$(aws-vault exec cx-api --backend file --no-session -- aws sts get-caller-identity | jq '.Account' | tr -d '"' )
-#  export $(aws-vault exec cx-api --backend file  --no-session -- env | grep AWS_REGION | xargs)
-#	REGISTRY_HOST=${AWS_ACCOUNT_NUMBER}.dkr.ecr.${AWS_REGION}.amazonaws.com
-#}
-#
-#function set_docker_io_registry(){
-#	REGISTRY_HOST=docker.io
-#}
