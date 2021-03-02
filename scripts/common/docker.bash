@@ -15,7 +15,7 @@ function docker_find (){
 
 function docker_clean_images(){
   echo "Cleaning images" 
-  docker rmi ${REMOVEIMAGES} -f
+  docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
 }
 
 function docker_space_after(){
