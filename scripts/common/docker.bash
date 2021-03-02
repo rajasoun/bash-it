@@ -15,7 +15,13 @@ function docker_find (){
 
 function docker_clean_images(){
   echo "Cleaning images" 
-  docker rmi $(docker images --filter "dangling=true" -q --no-trunc)
+  docker rmi \
+    $(docker images --filter "dangling=true" -q --no-trunc) \
+    2>/dev/null || echo "No more dangling images to remove."
+  # Always remove untagged images
+  docker rmi \
+    $(docker images | grep "<none>" | awk '{print $3}') \
+    2>/dev/null || echo "No untagged images to delete."
 }
 
 function docker_space_after(){
