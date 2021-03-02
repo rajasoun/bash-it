@@ -49,7 +49,7 @@ function list_dirs_containing_file(){
   file_name=$1
   echo "${LIGHT_BLUE}${UNDERLINE}Directories With $file_name ${NC}"
   # shellcheck disable=SC2038
-  basename "$(find . -type f -name "$file_name" | xargs dirname | sort | uniq)"
+  basename "$(find . -type f -name "$file_name" | xargs -I {} dirname {} | sort | uniq)"
 }
 
 function select_dir_containing_file(){
