@@ -3,23 +3,18 @@
 Collection of scripts that simplifies 
 
 - Build and Release docker images based upon git tags leveraging Generic Makefile [Thanks to Mark van Holsteijn](https://github.com/mvanholsteijn/docker-makefile)
+
+- aws-vault wrapper
+
 - Secrets Management using [AWS secrets Manager](https://aws.amazon.com/secrets-manager/) built on top of [aws-vault](https://github.com/99designs/aws-vault) and [secretscli](https://github.com/tedivm/secretcli)
 
 
-Reference Implementation
+Reference Implementations
 
-- Use following Code Snippet in leveraging the [docker framework](reference-implementation/docker-ri.bash) for 
+- [docker reference implementation](reference-implementation/docker-ri.bash) framework
 
-```shell
-# shellcheck source=bash-it/scripts/docker.bash
-source "$SCRIPT_DIR/assist/docker.bash"
-```
+- [aws vault reference implementation](reference-implementation/aws-vault-ri.bash) framework
 
-- Use following Code Snippet in leveraging the [secrets management](reference-implementation/secrets-manager-ri.bash) framework
+- [secrets management reference implementation](reference-implementation/secrets-manager-ri.bash) framework
 
-```shell
-# shellcheck source=bash-it/scripts/docker.bash
-source "$SCRIPT_DIR/assist/docker.bash"
-```
- 
 
