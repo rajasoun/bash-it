@@ -66,9 +66,10 @@ case $action in
       aws-vault --backend=file add  "$_AWS_PROFILE"
       ;;
     check)
-      echo "${GREEN}Test aws-vault for Profile : $_AWS_PROFILE ${NC}"
+      echo "${GREEN} aws-vault current setup ${NC}"
       aws-vault --backend=file list
       prompt_confirm "Do you want to continue with aws-vault setup check ?" && \
+        echo "${GREEN}Checking aws-vault for Profile : $_AWS_PROFILE ${NC}" && \
         aws-vault --backend=file exec $_AWS_PROFILE -- aws sts get-caller-identity
       ;;
     play)
