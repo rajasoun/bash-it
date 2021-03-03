@@ -13,5 +13,5 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/bash-it/scripts/load.bash"
 
 
-# shellcheck source=bash-it/scripts/secrets_manager.bash
-source "$SCRIPT_DIR/assist/secrets_manager.bash"
+# shellcheck source=bash-it/scripts/aws_vault.bash
+source "$SCRIPT_DIR/assist/aws_vault.bash"
