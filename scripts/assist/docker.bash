@@ -40,7 +40,8 @@ case $action in
       ;;
     clean)
       docker_clean
-      perform_docker_build_action clean 2>/dev/null || echo "No Directory with Dockerfile exists"
+      prompt_confirm "Do you want to continue with clean ?" && \
+        perform_docker_build_action clean 2>/dev/null || echo "No Directory with Dockerfile exists"
       clean_all
       ;;
     *)
