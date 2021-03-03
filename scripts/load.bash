@@ -7,5 +7,5 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "$SCRIPT_DIR/common/os.bash"
 # shellcheck source=scripts/common/docker.bash
 source "$SCRIPT_DIR/common/docker.bash"
-
-
+# shellcheck source=scripts/common/docker.bash
+source "$SCRIPT_DIR/common/aws-env.bash"

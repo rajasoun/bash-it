@@ -60,6 +60,7 @@ function select_dir_containing_file(){
   IMAGE="$USER/$FILE_DIR"
 }
 
+#ToDo: Implement logic for performing actions like build, release or clean on all Dockerfiles 
 function perform_docker_build_action(){
   action=$1
   select_dir_containing_file "Dockerfile"

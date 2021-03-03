@@ -56,7 +56,7 @@ Commands:
   shell       -> Shell into Container
   run         -> Run the Container
   scan        -> Source code with static analysis 
-  clean       -> Clean & Destroy VM
+  clean       -> Clean Dangling and Tagged Docker Images
 EOF
     ;;
 esac
