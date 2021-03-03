@@ -61,24 +61,23 @@ case $action in
     setup)
       echo "${GREEN} aws-vault current setup ${NC}"
       aws-vault --backend=file list
-      choose_aws_profile
+      prompt_confirm "Do you want to continue with setup ?" && choose_aws_profile
       echo "${GREEN}Setting up aws-vault for Profile : $_AWS_PROFILE ${NC}"
       aws-vault --backend=file add  "$_AWS_PROFILE"
       ;;
     check)
       echo "${GREEN}Test aws-vault for Profile : $_AWS_PROFILE ${NC}"
       aws-vault --backend=file list
-      #:ToDo - Resetting AWS Vault - To check if the environment variables are already present
-      AWS_VAULT=
-      aws-vault --backend=file exec $_AWS_PROFILE -- aws sts get-caller-identity
+      prompt_confirm "Do you want to continue with aws-vault setup check ?" && \
+        aws-vault --backend=file exec $_AWS_PROFILE -- aws sts get-caller-identity
     play)
       _play_secret_store "$@" 
       ;;
     teardown)
       echo "${GREEN} aws-vault current setup ${NC}"
       aws-vault --backend=file list
-      choose_aws_profile
-      echo "${GREEN}Deleting up aws-vault for Profile : $_AWS_PROFILE${NC}"
+      prompt_confirm "Do you want to continue with teardown ?" && choose_aws_profile
+      echo "${GREEN}Removing profile : $_AWS_PROFILE from aws-vault${NC}"
       aws-vault --backend=file remove  $_AWS_PROFILE
       ;;
     clean)

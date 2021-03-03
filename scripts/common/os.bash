@@ -20,6 +20,21 @@ function raise_error(){
   exit 1
 }
 
+function prompt_confirm(){
+    # call with a prompt string or use a default
+    local response msg="${1:-Do you want to continue} (y/[n])? "; shift
+    read -r $* -p "$msg" response || echo
+    case "$response" in
+        [yY][eE][sS]|[yY]) 
+            return 0
+            ;;
+        *)
+            return 1
+            ;;
+    esac
+}
+
+
 function check_precondition() {
   command=$1
   if ! [ -x "$(command -v "$command")" ]; then
