@@ -31,7 +31,7 @@ function choose_aws_profile() {
   fi
   local nlist=$(echo "$list" | nl)
   while [[ -z $AWS_PROFILE ]]; do
-      local AWS_PROFILE=$(read -p "AWS profile? `echo $'\n\r'`$nlist `echo $'\n> '`" N; echo "$list" | sed -n ${N}p)
+      local AWS_PROFILE=$(read -p "AWS profile Number? `echo $'\n\r'`$nlist `echo $'\n> '`" N; echo "$list" | sed -n ${N}p)
   done
   export _AWS_PROFILE=$AWS_PROFILE 
   echo AWS Profile: $AWS_PROFILE. 
