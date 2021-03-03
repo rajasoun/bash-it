@@ -60,15 +60,7 @@ function select_dir_containing_file(){
   IMAGE="$USER/$FILE_DIR"
 }
 
-#ToDo: Implement logic for performing actions like build, release or clean on all Dockerfiles 
-function perform_docker_build_action(){
-  action=$1
-  select_dir_containing_file "Dockerfile"
-  cd "$FILE_DIR" && make "$action" && cd - || return
-}
-
 function clean_all(){
-  echo "${GREEN}Cleaning docker images${NC}"
   echo "${GREEN}Deleting .DS_Store, bash-it & make${NC}"
   rm -fr make bash-it reports
   find . -type f \( -name ".DS_Store" -o -name "._.DS_Store" \) -delete -print 2>&1 | grep -v "Permission denied"

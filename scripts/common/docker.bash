@@ -30,6 +30,13 @@ function docker_space_after(){
   echo -e "$CURRENTSPACE"
 }
 
+#ToDo: Implement logic for performing actions like build, release or clean on all Dockerfiles 
+function perform_docker_build_action(){
+  action=$1
+  select_dir_containing_file "Dockerfile"
+  cd "$FILE_DIR" && make "$action" && cd - || return
+}
+
 function docker_clean(){
   docker_space_before
   docker_find
