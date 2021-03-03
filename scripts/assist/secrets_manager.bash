@@ -43,10 +43,12 @@ function _play_secret_store(){
     ;;
     *)
     cat <<-EOF
-Debug  commands:
+Play  commands:
 ----------------
+  setup     -> Setup AWS secrets store
   set-value -> Set [Key,Value] for client-id and client-secrets
-  get-value -> Get Value for Key                              
+  get-value -> Get Value for Key    
+  teardown  -> Tewardown AWS secrets store                           
 EOF
     ;;
   esac
@@ -67,7 +69,7 @@ function _play() {
     ;;
   *)
     cat <<-EOF
-Debug  commands:
+Play  commands:
 ----------------
   check         -> Check if aws-vault is correctly setup                                   
   secret-store  -> setup, tear-down, set and get 
@@ -86,7 +88,6 @@ case $action in
       choose_aws_profile
       echo "${GREEN}Setting up aws-vault for Profile : $_AWS_PROFILE ${NC}"
       aws-vault --backend=file add  "$_AWS_PROFILE"
-      _play_secret_store "$@"
       ;;
     play)
       _play "$@"
@@ -106,9 +107,9 @@ case $action in
 cat <<-EOF
 Commands:
 ---------
-  setup       -> Setup aws-vault and secrets store in AWS
+  setup       -> Setup aws-vault 
   play        -> Setup AWS Secrets Store, Put value, Get Value and Teardown using secretcli Library
-  teardown    -> Teardown aws-vault and secrets store in AWS
+  teardown    -> Teardown aws-vault 
   clean       -> Clean Dangling and Tagged Docker Images
 EOF
     ;;
