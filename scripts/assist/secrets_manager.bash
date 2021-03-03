@@ -61,9 +61,10 @@ case $action in
     setup)
       echo "${GREEN} aws-vault current setup ${NC}"
       aws-vault --backend=file list
-      prompt_confirm "Do you want to continue with setup ?" && choose_aws_profile
-      echo "${GREEN}Setting up aws-vault for Profile : $_AWS_PROFILE ${NC}"
-      aws-vault --backend=file add  "$_AWS_PROFILE"
+      prompt_confirm "Do you want to continue with setup ?" && \
+        choose_aws_profile && \
+        echo "${GREEN}Setting up aws-vault for Profile : $_AWS_PROFILE ${NC}" && \
+        aws-vault --backend=file add  "$_AWS_PROFILE"
       ;;
     check)
       echo "${GREEN} aws-vault current setup ${NC}"
@@ -78,9 +79,10 @@ case $action in
     teardown)
       echo "${GREEN} aws-vault current setup ${NC}"
       aws-vault --backend=file list
-      prompt_confirm "Do you want to continue with teardown ?" && choose_aws_profile
-      echo "${GREEN}Removing profile : $_AWS_PROFILE from aws-vault${NC}"
-      aws-vault --backend=file remove  $_AWS_PROFILE
+      prompt_confirm "Do you want to continue with teardown ?" && \
+        choose_aws_profile && \
+        echo "${GREEN}Removing profile : $_AWS_PROFILE from aws-vault${NC}" && \
+        aws-vault --backend=file remove  $_AWS_PROFILE
       ;;
     clean)
       clean_all
