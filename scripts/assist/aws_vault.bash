@@ -35,6 +35,7 @@ case $action in
       prompt_confirm "Do you want to continue with teardown ?" && \
         choose_aws_profile && \
         echo "${GREEN}Removing profile : $_AWS_PROFILE from aws-vault${NC}" && \
+        aws-vault clear && \
         aws-vault --backend=file remove $_AWS_PROFILE
       ;;
     clean)
