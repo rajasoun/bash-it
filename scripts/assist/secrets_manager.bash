@@ -81,6 +81,8 @@ action=$( tr '[:upper:]' '[:lower:]' <<<"$opt" )
 
 case $action in
     setup)
+      echo "${GREEN} aws-vault current setup ${NC}"
+      aws-vault --backend=file list
       choose_aws_profile
       echo "${GREEN}Setting up aws-vault for Profile : $_AWS_PROFILE ${NC}"
       aws-vault --backend=file add  "$_AWS_PROFILE"
