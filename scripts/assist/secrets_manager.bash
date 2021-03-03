@@ -54,30 +54,6 @@ EOF
   esac
 }
 
-function _play() {
-  action=$( tr '[:upper:]' '[:lower:]' <<<"$2" )
-  case $action in
-  check)
-    echo "${GREEN}Test aws-vault for Profile : $_AWS_PROFILE ${NC}"
-    aws-vault --backend=file list
-    #:ToDo - Resetting AWS Vault - To check if the environment variables are already present
-    AWS_VAULT=
-    aws-vault --backend=file exec $_AWS_PROFILE -- aws sts get-caller-identity
-    ;;
-  secret-store)
-    _play_secret_store "$@"
-    ;;
-  *)
-    cat <<-EOF
-Play  commands:
-----------------
-  check         -> Check if aws-vault is correctly setup                                   
-  secret-store  -> setup, tear-down, set and get 
-EOF
-    ;;
-  esac
-}
-
 opt="$1"
 action=$( tr '[:upper:]' '[:lower:]' <<<"$opt" )
 
@@ -89,15 +65,21 @@ case $action in
       echo "${GREEN}Setting up aws-vault for Profile : $_AWS_PROFILE ${NC}"
       aws-vault --backend=file add  "$_AWS_PROFILE"
       ;;
+    check)
+      echo "${GREEN}Test aws-vault for Profile : $_AWS_PROFILE ${NC}"
+      aws-vault --backend=file list
+      #:ToDo - Resetting AWS Vault - To check if the environment variables are already present
+      AWS_VAULT=
+      aws-vault --backend=file exec $_AWS_PROFILE -- aws sts get-caller-identity
     play)
-      _play "$@"
+      _play_secret_store "$@" 
       ;;
     teardown)
+      echo "${GREEN} aws-vault current setup ${NC}"
       aws-vault --backend=file list
       choose_aws_profile
       echo "${GREEN}Deleting up aws-vault for Profile : $_AWS_PROFILE${NC}"
       aws-vault --backend=file remove  $_AWS_PROFILE
-      _play_secret_store "$@"
       ;;
     clean)
       clean_all
@@ -108,9 +90,10 @@ cat <<-EOF
 Commands:
 ---------
   setup       -> Setup aws-vault 
-  play        -> Setup AWS Secrets Store, Put value, Get Value and Teardown using secretcli Library
+  check       -> Check if aws-vault is correctly setup  
   teardown    -> Teardown aws-vault 
   clean       -> Clean Dangling and Tagged Docker Images
+  play        -> Setup AWS Secrets Store, Put value, Get Value and Teardown using secretcli Library
 EOF
     ;;
 esac
