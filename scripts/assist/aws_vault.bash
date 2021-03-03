@@ -25,6 +25,7 @@ case $action in
       echo "${GREEN} aws-vault current setup ${NC}"
       aws-vault --backend=file list
       prompt_confirm "Do you want to continue with aws-vault setup check ?" && \
+        choose_aws_profile && \
         echo "${GREEN}Checking aws-vault for Profile : $_AWS_PROFILE ${NC}" && \
         aws-vault --backend=file exec $_AWS_PROFILE -- aws sts get-caller-identity
       ;;
