@@ -10,7 +10,7 @@ check_precondition aws-vault
 check_precondition aws
 check_precondition secretcli
 
-function _secret_store(){
+function _play_secret_store(){
   action=$( tr '[:upper:]' '[:lower:]' <<<"$3" )
   case $action in
   setup)
@@ -45,16 +45,14 @@ function _secret_store(){
     cat <<-EOF
 Debug  commands:
 ----------------
-  setup     -> Setup secret store   
   set-value -> Set [Key,Value] for client-id and client-secrets
-  get-value -> Get Value for Key  
-  teardown  -> Teardown secret store                               
+  get-value -> Get Value for Key                              
 EOF
     ;;
   esac
 }
 
-function _debug() {
+function _play() {
   action=$( tr '[:upper:]' '[:lower:]' <<<"$2" )
   case $action in
   check)
@@ -65,7 +63,7 @@ function _debug() {
     aws-vault --backend=file exec $_AWS_PROFILE -- aws sts get-caller-identity
     ;;
   secret-store)
-    _secret_store "$@"
+    _play_secret_store "$@"
     ;;
   *)
     cat <<-EOF
@@ -86,26 +84,30 @@ case $action in
       choose_aws_profile
       echo "${GREEN}Setting up aws-vault for Profile : $_AWS_PROFILE ${NC}"
       aws-vault --backend=file add  "$_AWS_PROFILE"
+      _play_secret_store "$@"
       ;;
-    debug)
-      _debug "$@"
+    play)
+      _play "$@"
       ;;
     teardown)
+      aws-vault --backend=file list
+      choose_aws_profile
       echo "${GREEN}Deleting up aws-vault for Profile : $_AWS_PROFILE${NC}"
       aws-vault --backend=file remove  $_AWS_PROFILE
+      _play_secret_store "$@"
       ;;
     clean)
-      rm -fr  bash-it reports
+      clean_all
       ;;
     *)
       echo "${RED}Usage: ./assist <command>${NC}"
 cat <<-EOF
 Commands:
 ---------
-  setup       -> Day-0 Setup for aws-vault and aws secrets manager
-  debug       -> Debug the setup
-  teardown    -> Teardown aws-vault and aws secerts manager
-  clean       -> Remove bash-it
+  setup       -> Setup aws-vault and secrets store in AWS
+  play        -> Setup AWS Secrets Store, Put value, Get Value and Teardown using secretcli Library
+  teardown    -> Teardown aws-vault and secrets store in AWS
+  clean       -> Clean Dangling and Tagged Docker Images
 EOF
     ;;
 esac

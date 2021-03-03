@@ -67,6 +67,15 @@ function perform_docker_build_action(){
   cd "$FILE_DIR" && make "$action" && cd - || return
 }
 
+function clean_all(){
+  echo "${GREEN}Cleaning docker images${NC}"
+  docker_clean
+  perform_docker_build_action clean
+  echo "${GREEN}Deleting .DS_Store, bash-it & make${NC}"
+  rm -fr make bash-it reports
+  find . -type f \( -name ".DS_Store" -o -name "._.DS_Store" \) -delete -print 2>&1 | grep -v "Permission denied"
+}
+
 #function set_registry(){
 #  opt="$1"
 #  type=$( tr '[:upper:]' '[:lower:]' <<<"$opt" )
