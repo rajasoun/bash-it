@@ -70,6 +70,7 @@ case $action in
       aws-vault --backend=file list
       prompt_confirm "Do you want to continue with aws-vault setup check ?" && \
         aws-vault --backend=file exec $_AWS_PROFILE -- aws sts get-caller-identity
+      ;;
     play)
       _play_secret_store "$@" 
       ;;
