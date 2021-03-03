@@ -82,7 +82,8 @@ case $action in
       prompt_confirm "Do you want to continue with teardown ?" && \
         choose_aws_profile && \
         echo "${GREEN}Removing profile : $_AWS_PROFILE from aws-vault${NC}" && \
-        aws-vault --backend=file remove  $_AWS_PROFILE
+        aws-vault --backend=file remove  \
+            $_AWS_PROFILE 2>/dev/null || echo "aws-vault setup for $_AWS_PROFILE does not exists"
       ;;
     clean)
       clean_all
