@@ -40,6 +40,8 @@ case $action in
       ;;
     clean)
       clean_all
+      docker_clean
+      perform_docker_build_action clean
       ;;
     *)
       echo "${RED}Usage: ./assist <command>${NC}"
