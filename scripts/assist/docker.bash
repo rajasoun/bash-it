@@ -39,9 +39,9 @@ case $action in
       docker run --rm -e "WORKSPACE=${PWD}" -v "$PWD:/app" shiftleft/sast-scan scan -t bash --build
       ;;
     clean)
-      clean_all
       docker_clean
       perform_docker_build_action clean
+      clean_all
       ;;
     *)
       echo "${RED}Usage: ./assist <command>${NC}"
