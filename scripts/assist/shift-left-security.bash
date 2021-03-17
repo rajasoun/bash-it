@@ -15,7 +15,6 @@ case $action in
       docker run --rm -e "WORKSPACE=${PWD}" -v "$PWD:/app" shiftleft/sast-scan scan -t bash --build
       ;;
     clean)
-      docker_clean
       clean_all
       ;;
     *)
