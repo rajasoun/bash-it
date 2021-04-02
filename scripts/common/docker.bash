@@ -34,7 +34,7 @@ function docker_space_after(){
 function perform_docker_build_action(){
   action=$1
   select_dir_containing_file "Dockerfile"
-  cd "$FILE_DIR" && make "$action" && cd - || return
+  cd "docker-shells/$FILE_DIR" && make "$action" && cd - || return
 }
 
 function docker_clean(){
