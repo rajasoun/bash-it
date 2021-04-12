@@ -34,6 +34,32 @@ function prompt_confirm(){
     esac
 }
 
+# Replace a line of text that matches the given regular expression in a file with the given replacement.
+# Only works for single-line replacements.
+function file_replace_text {
+  local -r original_text_regex="$1"
+  local -r replacement_text="$2"
+  local -r file="$3"
+
+  local args=()
+  args+=("-i")
+
+  if os_is_darwin; then
+    # OS X requires an extra argument for the -i flag (which we set to empty string) which Linux does no:
+    # https://stackoverflow.com/a/2321958/483528
+    args+=("")
+  fi
+
+  args+=("s|$original_text_regex|$replacement_text|")
+  args+=("$file")
+
+  sed "${args[@]}" > /dev/null
+}
+
+# Returns true (0) if this is an OS X server or false (1) otherwise.
+function os_is_darwin {
+  [[ $(uname -s) == "Darwin" ]]
+}
 
 function check_precondition() {
   command=$1
@@ -51,6 +77,7 @@ function init_make() {
       if [ ! -d "make/Makefile" ]
       then
         wget -q -P make -O make/Makefile "https://raw.githubusercontent.com/mvanholsteijn/docker-makefile/master/Makefile"
+        file_replace_text "bumped to version" "build(release-image): bumped to version" "make/Makefile"
       fi
 
       if [ ! -d ".make-release-support" ]
